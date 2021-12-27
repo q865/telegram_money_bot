@@ -3,7 +3,6 @@ import { Markup, Telegraf } from 'telegraf'
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 require('dotenv').config();
 const bot = new Telegraf(process.env.BOT_TOKEN!);
-const creds = require('./creds.json')
 const doc = new GoogleSpreadsheet("1qHg3PQmBv0S1ZBGHiOmFHSUPkpIH0aK9Q4Vjlx0-0qw")
 const db = {
     guns: [
@@ -37,7 +36,10 @@ function getRandomInt(num:any) {
 }
 
 async function start() {
-    await doc.useServiceAccountAuth(creds);
+    await doc.useServiceAccountAuth({
+        client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL!,
+        private_key: process.env.GOOGLE_PRIVATE_KEY!,
+    });
     await doc.loadInfo()
     const sheet = doc.sheetsByIndex[0]
 
