@@ -49,14 +49,14 @@ async function start() {
     const idName:any = ctx.message.from.username
      const sendlerName:string = ctx.message.from.first_name
     const msg = ctx.message.text
-       if(msg === 'двухстволка') ctx.reply(`${db.guns[getRandomInt(db.guns.length)]}`)
-       if (msg === 'дрочка') ctx.reply(`${db.drochka[getRandomInt(db.drochka.length)]}`)
+       if(msg === 'двухстволка') ctx.replyWithPhoto(`${db.guns[getRandomInt(db.guns.length)]}`)
+       if (msg === 'дрочка') ctx.replyWithHTML(`<b>${db.drochka[getRandomInt(db.drochka.length)]}</b>`)
        const r = /(?<=(^|[^а-я]))((у|[нз]а|(хитро|не)?вз?[ыьъ]|с[ьъ]|(и|ра)[зс]ъ?|(о[тб]|под)[ьъ]?|(.\B)+?[оаеи])?-?([её]б(?!о[рй])|и[пб][ае][тц]).*?|(н[иеа]|([дп]|верт)о|ра[зс]|з?а|с(ме)?|о(т|дно)?|апч)?-?ху([яйиеёю]|ли(?!ган)).*?|(в[зы]|(три|два|четыре)жды|(н|сук)а)?-?бл(я(?!(х|ш[кн]|мб)[ауеыио]).*?|[еэ][дт]ь?)|(ра[сз]|[зн]а|[со]|вы?|п(ере|р[оие]|од)|и[зс]ъ?|[ао]т)?п[иеё]зд.*?|(за)?п[ие]д[аое]?р(ну.*?|[оа]м|(ас)?(и(ли)?[нщктл]ь?)?|(о(ч[еи])?|ас)?к(ой)|юг)[ауеы]?|манд([ауеыи](л(и[сзщ])?[ауеиы])?|ой|[ао]вошь?(е?к[ауе])?|юк(ов|[ауи])?)|муд([яаио].*?|е?н([ьюия]|ей))|мля([тд]ь)?|лять|([нз]а|по)х|м[ао]л[ао]фь([яию]|[еёо]й))(?=($|[^а-я]))/ui.exec(msg)
        if (r) ctx.reply(`@${idName},\n${sendlerName}, кажется вы ${db.insults[getRandomInt(db.insults.length)]}`)
        const r2 = /рулетка.*\d+/.exec(msg)
        if (r2) {
-           let counter:any = r2[0].split(' ')[1]
-            const list = [] ;
+        let counter:any = r2[0].split(' ')[1]
+        const list = [] ;
         while(counter){
             const answer = list.push(getRandomInt(100))
             counter -= 1 
@@ -64,18 +64,18 @@ async function start() {
             ctx.reply(`${list}`)
        }
 
-        const regExp = /(?<date>\w+)\s+(?<type>\w+)\s+(?<category>\w+)\s+(?<amount>\d+)\s+(?<description>\w+)/
-        .exec(ctx.message.text)
+        // const regExp = /(?<date>\w+)\s+(?<type>\w+)\s+(?<category>\w+)\s+(?<amount>\d+)\s+(?<description>\w+)/
+        // .exec(ctx.message.text)
 
-        if (regExp == null) ctx.reply("Неправильный текст")
-        else
-            await sheet.addRow({
-                date: regExp?.groups?.date!,
-                type: regExp?.groups?.type!,
-                category: regExp?.groups?.category!,
-                amount: regExp?.groups?.amount!,
-                description: regExp?.groups?.description!
-            })
+        // if (regExp == null) ctx.reply("Неправильный текст")
+        // else
+        //     await sheet.addRow({
+        //         date: regExp?.groups?.date!,
+        //         type: regExp?.groups?.type!,
+        //         category: regExp?.groups?.category!,
+        //         amount: regExp?.groups?.amount!,
+        //         description: regExp?.groups?.description!
+        //     })
     })
 
     bot.launch()
