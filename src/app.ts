@@ -4,6 +4,7 @@ import { GoogleSpreadsheet } from 'google-spreadsheet';
 require('dotenv').config();
 const bot = new Telegraf(process.env.BOT_TOKEN!);
 const doc = new GoogleSpreadsheet("1qHg3PQmBv0S1ZBGHiOmFHSUPkpIH0aK9Q4Vjlx0-0qw")
+
 const db = {
     guns: [
     'https://static.ohotniki.ru/upload/ohotniki/475/b0/90/7e/DETAIL_PICTURE_134892_42972336.jpg',
@@ -36,18 +37,17 @@ function getRandomInt(num:any) {
 }
 
 async function start() {
-    await doc.useServiceAccountAuth({
-        client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL!,
-        private_key: process.env.GOOGLE_PRIVATE_KEY!,
-    });
-    await doc.loadInfo()
-    const sheet = doc.sheetsByIndex[0]
+    // await doc.useServiceAccountAuth({
+        // client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL!,
+        // private_key: process.env.GOOGLE_PRIVATE_KEY!
+    // });
+    
+    // await doc.loadInfo()
+    // const sheet = doc.sheetsByIndex[0]
 
     bot.start((ctx) => ctx.reply('welcome'))
     
     bot.on('text', async (ctx) => {
-        const rows = await sheet.getRows()
-        console.log(rows[0])
     const idName:any = ctx.message.from.username
      const sendlerName:string = ctx.message.from.first_name
     const msg = ctx.message.text
