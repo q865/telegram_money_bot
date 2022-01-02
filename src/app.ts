@@ -2,7 +2,7 @@
 import { Markup, Telegraf } from 'telegraf'
 require('dotenv').config();
 import admin from './components/admin';
-import ruletka from './components/rulet'
+import ruletka from './components/ruletka';
 const bot = new Telegraf(process.env.BOT_TOKEN!);
 start()
 
