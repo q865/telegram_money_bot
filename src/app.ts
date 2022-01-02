@@ -8,7 +8,7 @@ start()
 
 async function start() {
     bot.command('ruletka', async (ctx) => await ruletka(ctx))
-    bot.start((ctx) => ctx.reply('добро пожаловать'))
+    bot.start((ctx) => ctx.reply('привет!'))
     bot.on('text', async (ctx)=> await admin(ctx))
     bot.launch()
 
