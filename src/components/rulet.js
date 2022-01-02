@@ -36,34 +36,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var telegraf_1 = require("telegraf");
-require('dotenv').config();
-var admin_1 = require("./components/admin");
-var rulet_1 = require("./components/rulet");
-var bot = new telegraf_1.Telegraf(process.env.BOT_TOKEN);
-start();
-function start() {
+function default_1(ctx) {
     return __awaiter(this, void 0, void 0, function () {
+        var response;
         var _this = this;
         return __generator(this, function (_a) {
-            bot.command('ruletka', function (ctx) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+            ctx.reply('сколько у тебя фишек?');
+            response = function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, (0, rulet_1["default"])(ctx)];
+                    case 0: return [4 /*yield*/, ctx.message.text];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
-            }); }); });
-            bot.start(function (ctx) { return ctx.reply('добро пожаловать'); });
-            bot.on('text', function (ctx) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, (0, admin_1["default"])(ctx)];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            }); }); });
-            bot.launch();
-            // Enable graceful stop
-            process.once('SIGINT', function () { return bot.stop('SIGINT'); });
-            process.once('SIGTERM', function () { return bot.stop('SIGTERM'); });
+            }); }); };
+            ctx.reply("".concat(response));
             return [2 /*return*/];
         });
     });
 }
+exports["default"] = default_1;

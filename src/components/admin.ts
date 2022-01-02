@@ -1,0 +1,13 @@
+import { getRandomInt } from './utils'
+import db from '../db'
+
+export default async (ctx:any) => {
+    const idName:any = ctx.message.from.username
+     const sendlerName:string = ctx.message.from.first_name
+    const msg = ctx.message.text
+       if(msg === 'двухстволка') ctx.replyWithPhoto(`${db.guns[getRandomInt(db.guns.length)]}`)
+       if (msg === 'дрочка') ctx.replyWithHTML(`<b>${db.drochka[getRandomInt(db.drochka.length)]}</b>`)
+       if (db.regExp.insultsRegExp.exec(msg)) {
+            ctx.reply(`@${idName},\n${sendlerName}, кажется вы ${db.insults[getRandomInt(db.insults.length)]}`)
+       }    
+}
