@@ -2,3 +2,4 @@
 *.log
 coverage
 .env
+/creds.json/

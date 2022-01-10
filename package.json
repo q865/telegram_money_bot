@@ -12,9 +12,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/translate": "^6.3.1",
     "@types/google-spreadsheet": "^3.1.5",
+    "axios": "^0.24.0",
     "dotenv": "^10.0.0",
     "google-spreadsheet": "^3.2.0",
+    "google-translate-api": "^2.0.3",
     "telegraf": "^4.5.2"
   },
   "devDependencies": {
