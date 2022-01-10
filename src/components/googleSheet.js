@@ -36,47 +36,34 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var telegraf_1 = require("telegraf");
+var google_spreadsheet_1 = require("google-spreadsheet");
 require('dotenv').config();
-var admin_1 = require("./components/admin");
-var ruletka_1 = require("./components/ruletka");
-var weather_1 = require("./components/weather");
-var googleSheet_1 = require("./components/googleSheet");
-var bot = new telegraf_1.Telegraf(process.env.BOT_TOKEN);
-start();
-function start() {
-    return __awaiter(this, void 0, void 0, function () {
-        var _this = this;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, googleSheet_1["default"])()];
-                case 1:
-                    _a.sent();
-                    bot.command('ruletka', function (ctx) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4 /*yield*/, (0, ruletka_1["default"])(ctx)];
-                            case 1: return [2 /*return*/, _a.sent()];
-                        }
-                    }); }); });
-                    bot.command('weather', function (ctx) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4 /*yield*/, (0, weather_1["default"])(ctx)];
-                            case 1: return [2 /*return*/, _a.sent()];
-                        }
-                    }); }); });
-                    bot.start(function (ctx) { return ctx.reply('привет!'); });
-                    bot.on('text', function (ctx) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4 /*yield*/, (0, admin_1["default"])(ctx)];
-                            case 1: return [2 /*return*/, _a.sent()];
-                        }
-                    }); }); });
-                    bot.launch();
-                    // Enable graceful stop
-                    process.once('SIGINT', function () { return bot.stop('SIGINT'); });
-                    process.once('SIGTERM', function () { return bot.stop('SIGTERM'); });
-                    return [2 /*return*/];
-            }
-        });
+var doc = new google_spreadsheet_1.GoogleSpreadsheet('1qHg3PQmBv0S1ZBGHiOmFHSUPkpIH0aK9Q4Vjlx0-0qw');
+exports["default"] = (function (date, name, nickname, coments) { return __awaiter(void 0, void 0, void 0, function () {
+    var sheet, rows;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, doc.useServiceAccountAuth({
+                    client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+                    private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n")
+                })];
+            case 1:
+                _a.sent();
+                return [4 /*yield*/, doc.loadInfo()];
+            case 2:
+                _a.sent();
+                sheet = doc.sheetsByIndex[0];
+                return [4 /*yield*/, sheet.setHeaderRow(['date', 'name', 'nickname', 'coments'])];
+            case 3:
+                _a.sent();
+                return [4 /*yield*/, sheet.addRow({ date: date, name: name, nickname: nickname, coments: coments })];
+            case 4:
+                _a.sent();
+                console.log(sheet.headerValues);
+                return [4 /*yield*/, sheet.getRows()];
+            case 5:
+                rows = _a.sent();
+                return [2 /*return*/];
+        }
     });
-}
+}); });

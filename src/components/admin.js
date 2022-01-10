@@ -36,47 +36,31 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var telegraf_1 = require("telegraf");
-require('dotenv').config();
-var admin_1 = require("./components/admin");
-var ruletka_1 = require("./components/ruletka");
-var weather_1 = require("./components/weather");
-var googleSheet_1 = require("./components/googleSheet");
-var bot = new telegraf_1.Telegraf(process.env.BOT_TOKEN);
-start();
-function start() {
-    return __awaiter(this, void 0, void 0, function () {
-        var _this = this;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, googleSheet_1["default"])()];
-                case 1:
-                    _a.sent();
-                    bot.command('ruletka', function (ctx) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4 /*yield*/, (0, ruletka_1["default"])(ctx)];
-                            case 1: return [2 /*return*/, _a.sent()];
-                        }
-                    }); }); });
-                    bot.command('weather', function (ctx) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4 /*yield*/, (0, weather_1["default"])(ctx)];
-                            case 1: return [2 /*return*/, _a.sent()];
-                        }
-                    }); }); });
-                    bot.start(function (ctx) { return ctx.reply('привет!'); });
-                    bot.on('text', function (ctx) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4 /*yield*/, (0, admin_1["default"])(ctx)];
-                            case 1: return [2 /*return*/, _a.sent()];
-                        }
-                    }); }); });
-                    bot.launch();
-                    // Enable graceful stop
-                    process.once('SIGINT', function () { return bot.stop('SIGINT'); });
-                    process.once('SIGTERM', function () { return bot.stop('SIGTERM'); });
-                    return [2 /*return*/];
-            }
-        });
+var utils_1 = require("./utils");
+var db_1 = require("../db");
+var googleSheet_1 = require("./googleSheet");
+exports["default"] = (function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
+    var date, idName, sendlerName, msg;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                date = new Date();
+                idName = ctx.message.from.username;
+                sendlerName = ctx.message.from.first_name;
+                msg = ctx.message.text;
+                if (msg === 'двухстволка')
+                    ctx.replyWithPhoto("".concat(db_1["default"].guns[(0, utils_1.getRandomInt)(db_1["default"].guns.length)]));
+                if (msg === 'дрочка')
+                    ctx.replyWithHTML("<b>".concat(db_1["default"].drochka[(0, utils_1.getRandomInt)(db_1["default"].drochka.length)], "</b>"));
+                if (db_1["default"].regExp.insultsRegExp.exec(msg)) {
+                    ctx.reply("@".concat(idName, ",\n").concat(sendlerName, ", \u043A\u0430\u0436\u0435\u0442\u0441\u044F \u0432\u044B ").concat(db_1["default"].insults[(0, utils_1.getRandomInt)(db_1["default"].insults.length)]));
+                }
+                //test
+                return [4 /*yield*/, (0, googleSheet_1["default"])(date, sendlerName, idName, msg)];
+            case 1:
+                //test
+                _a.sent();
+                return [2 /*return*/];
+        }
     });
-}
+}); });

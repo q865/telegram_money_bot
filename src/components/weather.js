@@ -36,47 +36,31 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var telegraf_1 = require("telegraf");
+var axios_1 = require("axios");
 require('dotenv').config();
-var admin_1 = require("./components/admin");
-var ruletka_1 = require("./components/ruletka");
-var weather_1 = require("./components/weather");
-var googleSheet_1 = require("./components/googleSheet");
-var bot = new telegraf_1.Telegraf(process.env.BOT_TOKEN);
-start();
-function start() {
-    return __awaiter(this, void 0, void 0, function () {
-        var _this = this;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, googleSheet_1["default"])()];
-                case 1:
-                    _a.sent();
-                    bot.command('ruletka', function (ctx) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4 /*yield*/, (0, ruletka_1["default"])(ctx)];
-                            case 1: return [2 /*return*/, _a.sent()];
-                        }
-                    }); }); });
-                    bot.command('weather', function (ctx) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4 /*yield*/, (0, weather_1["default"])(ctx)];
-                            case 1: return [2 /*return*/, _a.sent()];
-                        }
-                    }); }); });
-                    bot.start(function (ctx) { return ctx.reply('привет!'); });
-                    bot.on('text', function (ctx) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4 /*yield*/, (0, admin_1["default"])(ctx)];
-                            case 1: return [2 /*return*/, _a.sent()];
-                        }
-                    }); }); });
-                    bot.launch();
-                    // Enable graceful stop
-                    process.once('SIGINT', function () { return bot.stop('SIGINT'); });
-                    process.once('SIGTERM', function () { return bot.stop('SIGTERM'); });
-                    return [2 /*return*/];
-            }
-        });
+var url = 'https://api.weather.yandex.ru/v2/forecast?';
+exports["default"] = (function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
+    var response, fact, icon, temp, feels_like, condition;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, (0, axios_1["default"])(url, {
+                    headers: {
+                        'X-Yandex-API-Key': "".concat(process.env.YANDEX_WEATHER_KEY)
+                    }
+                })];
+            case 1:
+                response = _a.sent();
+                if (response.status == 200) {
+                    fact = response.data.fact;
+                    icon = fact.icon, temp = fact.temp, feels_like = fact.feels_like, condition = fact.condition;
+                    //  const iconUrl = `https://yastatic.net/weather/i/icons/funky/dark/${icon}.svg.`
+                    //  ctx.replyWithPhoto(`${iconUrl}`)
+                    ctx.reply("\u0441\u0435\u0439\u0447\u0430\u0441 \u043D\u0430 \u0443\u043B\u0438\u0446\u0435: ".concat(temp, "\n\u043E\u0449\u0443\u0449\u0430\u0435\u0442\u0441\u044F \u043A\u0430\u043A: ").concat(feels_like, " "));
+                }
+                if (response.status !== 200) {
+                    console.log('gracia my litle friend');
+                }
+                return [2 /*return*/];
+        }
     });
-}
+}); });
